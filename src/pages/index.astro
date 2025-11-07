@@ -1,7 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-import Hero from '~/components/widgets/Hero.astro';
+import Hero3 from '~/components/widgets/Hero3.astro';
 import Note from '~/components/widgets/Note.astro';
 import Features from '~/components/widgets/Features.astro';
 import Features2 from '~/components/widgets/Features2.astro';
@@ -13,42 +13,43 @@ import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'AstroWind — Free template for creating websites with Astro + Tailwind CSS',
+  title: 'Home | FROST Lab',
   ignoreTitleTemplate: true,
+  heroOverlap: true,
 };
 ---
 
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
 
-  <Hero
+  <Hero3
     actions={[
       {
         variant: 'primary',
-        text: 'Get template',
+        text: 'See our research',
         href: 'https://github.com/arthelokyo/astrowind',
         target: '_blank',
-        icon: 'tabler:download',
+        icon: 'tabler:robot',
       },
-      { text: 'Learn more', href: '#features' },
+      { text: 'Meet the team', href: '#features' },
     ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'AstroWind Hero Image' }}
+    image={{ src: '~/assets/images/hero-image3.jpg', alt: 'AstroWind Hero Image' }}
   >
     <Fragment slot="title">
-      Free template for <span class="hidden xl:inline">creating websites with</span>
-      <span class="text-accent dark:text-white"> Astro 5.0</span> + Tailwind CSS
+      FROST Lab
+      <!-- <span class="hidden xl:inline">d websites with</span> -->
+      <!-- <span class="text-accent dark:text-white"> Astro 5.0</span> + Tailwind CSS -->
     </Fragment>
 
     <Fragment slot="subtitle">
       <span class="hidden sm:inline">
-        <span class="font-semibold">AstroWind</span> is a free, customizable and production-ready template for Astro 5.0
-        + Tailwind CSS.</span
+        <!-- <span class="font-semibold">FROSTY</span>  -->
+        The Field Robotic Systems Lab at Brigham Young University</span
       >
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">AstroWind: Production-ready.</span>
-      Suitable for Startups, Small Business, SaaS websites, Professional Portfolios, Marketing websites, Landing Pages &
-      Blogs.
+      <span class="block mb-1 sm:hidden font-bold text-blue-600">The Field Robotics Systems Lab</span>
+
     </Fragment>
-  </Hero>
+  </Hero3>
 
   <!-- Note Widget ******************* -->
 
@@ -58,45 +59,45 @@ const metadata = {
 
   <Features
     id="features"
-    tagline="Features"
-    title="What you get with AstroWind"
-    subtitle="One of the most professional and comprehensive templates currently on the market. Most starred & forked Astro theme in 2022, 2023 and 2024."
+    tagline="Our Vision"
+    title="What is the FROST Lab?"
+  subtitle="The Field Robotic Systems Lab (FRoSt Lab) at Brigham Young University is focused on enabling the development of <strong>robust and reliable</strong> field-robotic systems that are able to <strong>consistently</strong> <em>perceive, navigate, and perform work</em> in complex unstructured real-world environments."
     items={[
       {
-        title: 'Astro + Tailwind CSS Integration',
+        title: 'Robotic Perception',
         description:
-          'A seamless integration between two great frameworks that offer high productivity, performance and versatility.',
-        icon: 'tabler:brand-tailwind',
+          'Algorithms and sensor fusion that allow robots to interpret camera, lidar and IMU data to understand their surroundings in real time.',
+        icon: 'tabler:camera',
       },
       {
-        title: 'Ready-to-use Components',
+        title: 'Robotic Localization, Mapping, and SLAM',
         description:
-          'Widgets made with Tailwind CSS ready to be used in Marketing Websites, SaaS, Blogs, Personal Profiles, Small Business...',
-        icon: 'tabler:components',
+          'Techniques for determining a robot’s pose and building consistent maps of unknown environments for reliable navigation.',
+        icon: 'tabler:map',
       },
       {
-        title: 'Best Practices',
+        title: 'Non-linear State-Estimation',
         description:
-          'Creating secure, efficient, and user-friendly websites that deliver exceptional experiences and lasting value.',
-        icon: 'tabler:list-check',
+          'Robust filtering and smoothing (EKF/UKF/graph-based) for estimating vehicle and sensor states under noise and uncertainty.',
+        icon: 'tabler:calculator',
       },
       {
-        title: 'Excellent Page Speed',
+        title: 'Task and Motion Planning',
         description:
-          'Having a good page speed impacts organic search ranking, improves user experience (UI/UX) and increase conversion rates.',
-        icon: 'tabler:rocket',
+          'Planning algorithms that generate safe, feasible motion trajectories and high-level task sequences for autonomous operation.',
+        icon: 'tabler:route',
       },
       {
-        title: 'Search Engine Optimization (SEO)',
+        title: 'Hardware/Software-based Algorithm Acceleration',
         description:
-          "SEO lies in its ability to enhance a website's visibility, driving organic traffic and enabling it to reach a wider audience.",
-        icon: 'tabler:arrows-right-left',
+          'Using optimized implementations, GPU/FPGA acceleration, and system-level co-design to meet real-time constraints in the field.',
+        icon: 'tabler:cpu',
       },
       {
-        title: 'Open to new ideas and contributions',
+        title: 'Multi-agent Systems',
         description:
-          'Embracing a culture that is open to new ideas and contributions is integral fostering innovation, collaboration, and a dynamic user experience.',
-        icon: 'tabler:bulb',
+          'Cooperative algorithms for coordination, communication and distributed decision-making among multiple robotic agents.',
+        icon: 'tabler:users',
       },
     ]}
   />
