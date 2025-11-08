@@ -16,11 +16,21 @@ const { metadata } = Astro.props;
 ---
 
 <Layout metadata={metadata}>
-  <slot name="announcement">
+  <!-- <slot name="announcement">
     <Announcement />
-  </slot>
+  </slot> -->
   <slot name="header">
-    <Header {...headerData} isSticky showRssFeed showToggleTheme />
+    <Header {...headerData} isSticky heroOverlap={metadata?.heroOverlap} />
+    {
+      metadata?.heroOverlap ? (
+        <style is:inline>{`
+          #header > div.hero-page { background-color: rgba(255,255,255,0.9) !important; transition: background-color .25s ease, border-bottom-color .25s ease; }
+          #header.scroll > div.hero-page { background-color: rgba(255,255,255,1) !important; border-bottom-color: rgba(0,0,0,0.06) !important; }
+          .dark #header > div.hero-page { background-color: rgba(0,0,0,0.85) !important; }
+          .dark #header.scroll > div.hero-page { background-color: rgba(0,0,0,0.95) !important; }
+        `}</style>
+      ) : null
+    }
   </slot>
   <main>
     <slot />

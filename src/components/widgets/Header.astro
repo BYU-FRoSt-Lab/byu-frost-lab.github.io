@@ -30,6 +30,7 @@ export interface Props {
   showToggleTheme?: boolean;
   showRssFeed?: boolean;
   position?: string;
+  heroOverlap?: boolean;
 }
 
 const {
@@ -42,6 +43,7 @@ const {
   showToggleTheme = false,
   showRssFeed = false,
   position = 'center',
+  heroOverlap = false,
 } = Astro.props;
 
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
@@ -51,9 +53,11 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   class:list={[
     { sticky: isSticky, relative: !isSticky, dark: isDark },
     'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out',
+    // { 'overflow-hidden': heroOverlap },
   ]}
-  {...isSticky ? { 'data-aw-sticky-header': true } : {}}
-  {...id ? { id } : {}}
+  {...(isSticky ? { 'data-aw-sticky-header': true } : {})}
+  {...(heroOverlap ? { style: 'background-color: rgba(255,255,255,0.9);' } : {})}
+  {...(id ? { id } : {})}
 >
   <div class="absolute inset-0"></div>
   <div
@@ -68,7 +72,9 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       {
         'max-w-7xl': !isFullWidth,
       },
+      { 'hero-page': heroOverlap },
     ]}
+    {...heroOverlap ? { style: 'background-color: rgba(255,255,255,0.9); border-bottom-color: transparent; transition: background-color .25s ease, border-bottom-color .25s ease;' } : {}}
   >
     <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
       <a class="flex items-center" href={getHomePermalink()}>

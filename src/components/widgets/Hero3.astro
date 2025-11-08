@@ -1,0 +1,132 @@
+---
+import Image from '~/components/common/Image.astro';
+import Button from '~/components/ui/Button.astro';
+
+import type { Hero as Props } from '~/types';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline,
+
+  content = await Astro.slots.render('content'),
+  actions = await Astro.slots.render('actions'),
+  image = await Astro.slots.render('image'),
+
+  id,
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<section class="relative md:-mt-[76px] not-prose" {...id ? { id } : {}}>
+  <div class="absolute inset-0 pointer-events-none z-0" aria-hidden="true">
+    <slot name="bg">
+      {bg ? <Fragment set:html={bg} /> : null}
+    </slot>
+    {
+      image && (
+        <div class="absolute inset-0 overflow-hidden">
+          {typeof image === 'string' ? (
+            <Fragment set:html={image} />
+          ) : (
+            <Image
+              class="w-full h-full object-cover pointer-events-none"
+              style="object-position:100% 50%; transform: translateX(0%); background-size: 340%"
+              widths={[400, 768, 1024, 2040]}
+              sizes="100vw"
+              loading="eager"
+              width={2040}
+              height={1152}
+              {...image}
+            />
+          )}
+        </div>
+      )
+    }
+  </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="pt-0 md:pt-[76px] pointer-events-none"></div>
+    <div class="py-12 md:py-20">
+      <div class="text-center pb-10 md:pb-16 max-w-5xl mx-auto">
+        {
+          tagline && (
+            <p
+              class="text-base text-white/70 font-bold tracking-wide uppercase intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade drop-shadow-md"
+              set:html={tagline}
+            />
+          )
+        }
+
+        {
+          title && (
+            <h1
+              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-white dark:text-white intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade drop-shadow-2xl"
+              set:html={title}
+            />
+          )
+        }
+
+        <div class="max-w-3xl mx-auto">
+          {
+            subtitle && (
+              <p
+                class="text-xl text-white/90 mb-6 dark:text-white/90 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade drop-shadow-md"
+                set:html={subtitle}
+              />
+            )
+          }
+          {
+            actions && (
+              <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+                {Array.isArray(actions) ? (
+                  actions.map((action) => (
+                    <div class="flex w-full sm:w-auto">
+                      <Button {...(action || {})} class={`w-full sm:mb-0 ${action?.class ?? ''} text-white`} />
+                    </div>
+                  ))
+                ) : (
+                  <Fragment set:html={actions} />
+                )}
+              </div>
+            )
+          }
+        </div>
+
+        {content && <Fragment set:html={content} />}
+      </div>
+      <div class="intersect-once intersect-no-queue intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade" />
+    </div>
+  </div>
+
+  <!-- page-scoped header override: make header semi-transparent white here, transition to full white on scroll -->
+  <!-- <style is:inline>{`
+    /* light mode: semi-transparent white -> full white - apply to header's inner container (first child) */
+    #header.hero-overlap > div:first-child{ background-color: rgba(255,255,255,0.9) !important; border-bottom-color: rgba(0,0,0,0) !important; transition: background-color .25s ease, border-bottom-color .25s ease; }
+    #header.hero-overlap.scroll > div:first-child{ background-color: rgba(255,255,255,1) !important; border-bottom-color: rgba(0,0,0,0.06) !important; }
+    /* dark mode: semi-transparent dark -> stronger dark on scroll */
+    .dark #header.hero-overlap > div:first-child{ background-color: rgba(0,0,0,0.85) !important; border-bottom-color: rgba(255,255,255,0) !important; }
+    .dark #header.hero-overlap.scroll > div:first-child{ background-color: rgba(0,0,0,0.95) !important; border-bottom-color: rgba(255,255,255,0.04) !important; }
+  `}</style>
+  <script is:inline>{`(() => {
+    // Option B: force header inner container to be fully opaque immediately (page-scoped)
+    const header = document.getElementById('header');
+    if (!header) return;
+    const target = header.children[1] || header.querySelector('div:not([class*="absolute"])') || header;
+
+    function applyOpaque() {
+      const dark = document.documentElement.classList.contains('dark');
+      const bg = dark ? 'rgba(0,0,0,0.95)' : 'rgba(255,255,255,1)';
+      const border = dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)';
+      target.style.backgroundColor = bg;
+      target.style.borderBottomColor = border;
+      target.style.transition = 'background-color .15s ease, border-bottom-color .15s ease';
+    }
+
+    applyOpaque();
+    document.addEventListener('astro:after-swap', applyOpaque);
+    // update on theme change
+    const mo = new MutationObserver(applyOpaque);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    window.addEventListener('beforeunload', () => mo.disconnect());
+  })();`}</script> -->
+</section>
