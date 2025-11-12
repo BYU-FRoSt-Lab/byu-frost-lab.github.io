@@ -1,6 +1,7 @@
 ---
 import PageLayout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
 
 const modules = (import.meta.glob('../../content/people/*.md', { eager: true }) as any);
 const people = Object.entries(modules).map(([path, mod]: [string, any]) => {
@@ -27,6 +28,12 @@ function getImageWrapperClass(style) {
 function getImgClass(style) {
   if (style === 'round') return 'w-full h-full object-cover';
   return 'w-full h-full object-cover';
+}
+
+// Return grid classes for a group. Students use 5 columns on large screens.
+function getGridClass(group) {
+  if (group === 'faculty') return 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6';
+  return 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6';
 }
 
 
@@ -82,12 +89,20 @@ function getOrderedMembers(group) {
           </div>
           <p class="text-muted mb-6 max-w-3xl">{GROUPS[g].intro}</p>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div class={getGridClass(g)}>
             {list.map((p) => (
               <article class="bg-white dark:bg-slate-800 rounded-lg shadow hover:shadow-lg overflow-hidden transition-shadow h-full flex flex-col relative intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade intersect-quarter">
                 <a href={`/people/${p.slug}`} class="absolute inset-0 z-10" aria-hidden="true"></a>
                 <div class={getImageWrapperClass(IMAGE_STYLE)}>
-                  <img src={p.photo} alt={p.name} class={getImgClass(IMAGE_STYLE)} />
+                  <Image
+                    src={p.photo}
+                    alt={p.name}
+                    class={getImgClass(IMAGE_STYLE)}
+                    widths={[320, 640, 1024]}
+                    formats={["avif", "webp", "jpeg"]}
+                    width={IMAGE_STYLE === 'round' ? 192 : IMAGE_STYLE === 'square' ? 480 : 1024}
+                    height={IMAGE_STYLE === 'round' ? 192 : IMAGE_STYLE === 'square' ? 480 : 192}
+                  />
                 </div>
                 <div class="p-4 flex flex-col flex-1 relative z-20">
                   <div>
