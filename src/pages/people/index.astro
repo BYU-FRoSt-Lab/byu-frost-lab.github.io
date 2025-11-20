@@ -120,6 +120,7 @@ function getOrderedMembers(group) {
                         else if (url.includes('linkedin.com') || label.includes('linkedin')) iconName = 'tabler:brand-linkedin';
                         else if (url.includes('x.com') || url.includes('twitter.com') || label.includes('twitter') || label === 'x') iconName = 'tabler:brand-x';
                         else if (url.startsWith('mailto:') || label.includes('email')) iconName = 'tabler:mail';
+                        else if (label.includes('cv') || label.includes('resume')) iconName = 'tabler:file-cv';
 
                         return (
                           <a
