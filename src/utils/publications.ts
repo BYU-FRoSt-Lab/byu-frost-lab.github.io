@@ -29,7 +29,12 @@ export function parseBib(bibRaw: string): BibEntry[] {
         fields.title = it.title || it['title'] || '';
         fields.abstract = it.abstract || it['abstract'] || '';
         fields.url = it.URL || it.url || it.link || '';
+        // Prefer an explicit "website" field when present in citation-js data
+        // Do NOT fall back to url here — only set `website` when explicitly present.
+        fields.website = (it.website || it.websiteTitle) ? (it.website || it.websiteTitle) : '';
         fields.pdf = it.pdf || it.PDF || it.file || '';
+        fields.doi = it.DOI || it.doi || it['doi'] || '';
+        fields.code = it.code || it['code'] || it.repository || it.repo || '';
         fields.poster = it.poster || '';
         // image/thumbnail fields
         fields.image = it.image || it.thumbnail || it.image_url || it['image'] || '';
@@ -89,6 +94,11 @@ export function parseBib(bibRaw: string): BibEntry[] {
     fields.venue = fields.journal || fields.booktitle || fields.publisher || fields['collection-title'] || fields.series || '';
     // fallback for images in raw bibtex
     fields.image = fields.image || fields.thumbnail || fields.photo || fields.image || '';
+    // DOI and code may be present as fields in raw bibtex
+    fields.doi = fields.doi || fields.DOI || '';
+    fields.code = fields.code || fields.repository || fields.repo || '';
+    // Expose a `website` field for bib entries only if present (do NOT fall back to url)
+    fields.website = fields.website || '';
 
     // Normalize author string to "Given Family" comma-separated when possible
     if (fields.author && typeof fields.author === 'string') {
