@@ -93,7 +93,7 @@ export function parseBib(bibRaw: string): BibEntry[] {
     // populate venue from common fallback fields
     fields.venue = fields.journal || fields.booktitle || fields.publisher || fields['collection-title'] || fields.series || '';
     // fallback for images in raw bibtex
-    fields.image = fields.image || fields.thumbnail || fields.photo || fields.image || '';
+    fields.image = fields.image || fields.thumbnail || fields.photo || '';
     // DOI and code may be present as fields in raw bibtex
     fields.doi = fields.doi || fields.DOI || '';
     fields.code = fields.code || fields.repository || fields.repo || '';
