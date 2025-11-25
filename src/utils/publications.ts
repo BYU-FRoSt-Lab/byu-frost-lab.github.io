@@ -41,9 +41,9 @@ export function parseBib(bibRaw: string): BibEntry[] {
         // Determine venue from common Citation.js/CSL fields
         fields.venue = it['container-title'] || it.containerTitle || it.journal || it['journal'] || it.publisher || it.booktitle || it['collection-title'] || '';
         // try some other common image fields
-        if (!fields.image) {
-          fields.image = it['thumbnail'] || it['image'] || it['preview'] || '';
-        }
+        
+        
+        
         const year = (it.issued && it.issued['date-parts'] && it.issued['date-parts'][0] && it.issued['date-parts'][0][0]) || it.year || '';
         fields.year = year ? String(year) : '';
 
