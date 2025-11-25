@@ -16,7 +16,7 @@ const entries: BibEntry[] = [...parseBib(moonRaw), ...parseBib(mangelsonRaw)].fi
 entries.sort((a, b) => {
   const ay = a.fields.year || '0';
   const by = b.fields.year || '0';
-  if (ay === by) return a.citationKey.localeCompare(b.citationKey);
+  if (ay === by) return (a.citationKey || '').localeCompare(b.citationKey || '');
   return Number(by) - Number(ay);
 });
 
