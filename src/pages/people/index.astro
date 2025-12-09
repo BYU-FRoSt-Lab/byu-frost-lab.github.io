@@ -3,12 +3,25 @@ import PageLayout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 
-const modules = (import.meta.glob('../../content/people/*.md', { eager: true }) as any);
+const photoImports = ((import.meta as any).glob(
+  '../../assets/images/people/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+) as Record<string, any>);
+
+const modules = ((import.meta as any).glob('../../content/people/*.md', { eager: true }) as any);
+
+function resolvePhoto(photo) {
+  if (!photo) return photo;
+  // Convert frontmatter string paths to the glob key so Astro can serve optimized assets.
+  const key = photo.replace(/^\/?src\//, '../../');
+  return photoImports[key]?.default ?? photo;
+}
+
 const people = Object.entries(modules).map(([path, mod]: [string, any]) => {
   const parts = path.split('/');
   const filename = parts[parts.length - 1];
   const slug = filename.replace(/\.md$/, '');
-  return { slug, ...(mod.frontmatter || {}) };
+  return { slug, ...(mod.frontmatter || {}), photo: resolvePhoto(mod.frontmatter?.photo) };
 });
 people.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -16,7 +29,14 @@ const metadata = { title: 'Lab Members' };
 
 // Set the image style for index cards: 'rect' | 'square' | 'round'
 // Change this value to quickly preview different styles.
-const IMAGE_STYLE = 'square';
+const IMAGE_SIZES = {
+  rect: { width: 1024, height: 192 },
+  square: { width: 480, height: 480 },
+  round: { width: 192, height: 192 },
+} as const;
+
+const IMAGE_STYLE: keyof typeof IMAGE_SIZES = 'square';
+const IMAGE_DIMENSIONS = IMAGE_SIZES[IMAGE_STYLE];
 
 function getImageWrapperClass(style) {
   if (style === 'square') return 'w-full aspect-square bg-gray-100 flex-shrink-0 overflow-hidden';
@@ -90,7 +110,7 @@ function getOrderedMembers(group) {
           <p class="text-muted mb-6 max-w-3xl">{GROUPS[g].intro}</p>
 
           <div class={getGridClass(g)}>
-            {list.map((p) => (
+            {list.map((p,i) => (
               <article class="bg-white dark:bg-slate-800 rounded-lg shadow hover:shadow-lg overflow-hidden transition-shadow h-full flex flex-col relative intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade intersect-quarter">
                 <a href={`/people/${p.slug}`} class="absolute inset-0 z-10" aria-hidden="true"></a>
                 <div class={getImageWrapperClass(IMAGE_STYLE)}>
@@ -100,8 +120,10 @@ function getOrderedMembers(group) {
                     class={getImgClass(IMAGE_STYLE)}
                     widths={[320, 640, 1024]}
                     formats={["avif", "webp", "jpeg"]}
-                    width={IMAGE_STYLE === 'round' ? 192 : IMAGE_STYLE === 'square' ? 480 : 1024}
-                    height={IMAGE_STYLE === 'round' ? 192 : IMAGE_STYLE === 'square' ? 480 : 192}
+                    loading={g === 'faculty' && i < 2 ? 'eager' : 'lazy'}
+                    fetchpriority={g === 'faculty' && i < 2 ? 'high' : 'auto'}
+                    width={IMAGE_DIMENSIONS.width}
+                    height={IMAGE_DIMENSIONS.height}
                   />
                 </div>
                 <div class="p-4 flex flex-col flex-1 relative z-20">
