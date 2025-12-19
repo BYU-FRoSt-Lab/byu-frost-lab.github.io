@@ -1,6 +1,6 @@
 ---
 name: "Sarahí Ortega"
-title: "Masters student"
+title: "Master's student"
 group: "graduate"
 photo: "/src/assets/images/people/sarahí-ortega.jpg"
 ---

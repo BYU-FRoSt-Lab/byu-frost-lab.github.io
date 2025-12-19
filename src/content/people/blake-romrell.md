@@ -1,6 +1,6 @@
 ---
 name: "Blake Romrell"
-title: "Ph. D. Student"
+title: "Master's Student"
 group: "graduate"
 photo: "/src/assets/images/people/blake-romrell.jpg"
 ---

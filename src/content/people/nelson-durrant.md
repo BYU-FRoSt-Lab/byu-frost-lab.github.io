@@ -1,6 +1,6 @@
 ---
 name: "Nelson Durrant"
-title: "Masters student"
+title: "Master's student"
 group: "graduate"
 photo: "/src/assets/images/people/nelson-durrant.jpg"
 ---

@@ -1,6 +1,6 @@
 ---
 name: "Ben Boyack"
-title: "Masters student"
+title: "Master's student"
 group: "graduate"
 photo: "/src/assets/images/people/ben-boyack.jpg"
 links:
