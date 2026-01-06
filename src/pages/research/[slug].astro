@@ -38,8 +38,6 @@ const metadata = { title: `${project.project_name} | Research Projects | FROST L
         <div class="w-full aspect-square mx-auto md:mx-0 overflow-hidden rounded-lg">
           <img src={project.photo} alt={project.project_name} class="w-full h-full object-cover" />
         </div>
-        <h2 class="mt-4 text-2xl font-bold">{project.project_name}</h2>
-        <p class="text-sm text-gray-500 mb-3">{project.subtext}</p>
 
         {project.links && project.links.length ? (
           <div class="space-y-2">
@@ -72,6 +70,8 @@ const metadata = { title: `${project.project_name} | Research Projects | FROST L
 
       <main class="md:col-span-2">
         <article class="prose dark:prose-invert">
+          <h1 class="text-4xl font-bold mb-3">{project.project_name}</h1>
+          <p class="text-sm text-gray-500 mb-3">{project.subtext}</p>
           <Content />
         </article>
       </main>
