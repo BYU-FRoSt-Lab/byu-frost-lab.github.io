@@ -113,6 +113,14 @@ function getOrderedMembers(group) {
     {Object.keys(GROUPS).map((g) => {
       const list = getOrderedMembers(g);
       return list.length ? (
+        <>
+        {/* Visual divider before alumni sections */}
+        {g === 'graduate_alum' && (
+          <div class="my-16 border-t-2 border-gray-200 dark:border-gray-700 pt-12">
+            <h2 class="text-3xl font-bold mb-2 text-center">Alumni</h2>
+            <p class="text-center text-muted mb-12">Former lab members who have graduated and moved on to exciting careers and opportunities.</p>
+          </div>
+        )}
         <section class="mb-12">
           <div class="flex items-baseline justify-between mb-4">
             <h2 class="text-2xl font-semibold">{GROUPS[g].title}</h2>
