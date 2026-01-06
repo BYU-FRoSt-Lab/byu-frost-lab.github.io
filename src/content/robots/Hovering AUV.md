@@ -2,7 +2,7 @@
 name: "Hovering AUV"
 title: "A fully autonomous underwater vehicle used to collect data and test novel mapping, localization, and planning algorithms."
 group: "robot"
-photo: "/src/assets/images/robots/Hovering AUV.jpg"
+photo: "/src/assets/images/robots/Hovering AUV.png"
 ---
 # Our AUV Design
 
