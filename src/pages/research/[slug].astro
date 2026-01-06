@@ -3,7 +3,7 @@ import PageLayout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 
 export async function getStaticPaths() {
-  const modules = (import.meta.glob('../../content/people/*.md', { eager: true }) as any);
+  const modules = (import.meta.glob('../../content/research_projects/*.md', { eager: true }) as any);
   return Object.keys(modules).map((path) => {
     const parts = path.split('/');
     const filename = parts[parts.length - 1];
@@ -12,8 +12,8 @@ export async function getStaticPaths() {
   });
 }
 
-const modules = (import.meta.glob('../../content/people/*.md', { eager: true }) as any);
-const people = Object.entries(modules).map(([path, mod]: [string, any]) => {
+const modules = (import.meta.glob('../../content/research_projects/*.md', { eager: true }) as any);
+const research_projects = Object.entries(modules).map(([path, mod]: [string, any]) => {
   const parts = path.split('/');
   const filename = parts[parts.length - 1];
   const slug = filename.replace(/\.md$/, '');
@@ -21,29 +21,27 @@ const people = Object.entries(modules).map(([path, mod]: [string, any]) => {
 });
 
 const { slug } = Astro.params;
-const person = people.find((p) => p.slug === slug);
-if (!person) {
-  throw new Error(`Person not found: ${slug}`);
+const project = research_projects.find((p) => p.slug === slug);
+if (!project) {
+  throw new Error(`Research project not found: ${slug}`);
 }
-const Content = person.Content;
-const metadata = { title: `${person.name} | People | FROST Lab` };
+const Content = project.Content;
+const metadata = { title: `${project.project_name} | Research Projects | FROST Lab` };
 ---
 
 <PageLayout metadata={metadata}>
-  <section class="max-w-4xl mx-auto px-4 py-12">
-    <a class="text-sm text-blue-600 mb-4 inline-block" href="/people">← Back to people</a>
+  <section class="max-w-7xl mx-auto px-4 py-12">
+    <a class="text-sm text-blue-600 mb-4 inline-block" href="/research">← Back to research projects</a>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
       <aside class="md:col-span-1">
         <div class="w-full aspect-square mx-auto md:mx-0 overflow-hidden rounded-lg">
-          <img src={person.photo} alt={person.name} class="w-full h-full object-cover" />
+          <img src={project.photo} alt={project.project_name} class="w-full h-full object-cover" />
         </div>
-        <h2 class="mt-4 text-2xl font-bold">{person.name}</h2>
-        <p class="text-sm text-gray-500 mb-3">{person.title}</p>
 
-        {person.links && person.links.length ? (
+        {project.links && project.links.length ? (
           <div class="space-y-2">
-            {person.links.map((l) => {
+            {project.links.map((l) => {
               const url = l.url || '';
               const label = (l.label || 'link');
               let iconName = 'tabler:globe';
@@ -71,7 +69,9 @@ const metadata = { title: `${person.name} | People | FROST Lab` };
       </aside>
 
       <main class="md:col-span-2">
-        <article class="prose prose-sm dark:prose-invert prose-a:text-accent prose-a:no-underline hover:prose-a:underline">
+        <article class="prose dark:prose-invert">
+          <h1 class="text-4xl font-bold mb-3">{project.project_name}</h1>
+          <p class="text-sm text-gray-500 mb-3">{project.subtext}</p>
           <Content />
         </article>
       </main>
