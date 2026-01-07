@@ -4,7 +4,7 @@ title: "A fully autonomous underwater vehicle used to collect data and test nove
 group: "robot"
 photo: "/src/assets/images/robots/Hovering AUV.png"
 ---
-# Our AUV Design
+## Our AUV Design
 
 This AUV serves as our main underwater testing vehicle. Its modular 80/20-based design, 3D-printed parts, and easily accessible enclosures allows for flexibility in testing both new hardware and software configurations. It is also easy to transport and operate at a size of approximately 31" x 24" x 18".
 
