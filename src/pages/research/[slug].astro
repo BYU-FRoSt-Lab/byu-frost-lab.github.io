@@ -2,6 +2,18 @@
 import PageLayout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 
+const photoImports = ((import.meta as any).glob(
+  '../../assets/images/research_projects/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+) as Record<string, any>);
+
+function resolvePhoto(photo) {
+  if (!photo) return photo;
+  // Convert frontmatter string paths to the glob key so Astro can serve optimized assets.
+  const key = photo.replace(/^\/?src\//, '../../');
+  return photoImports[key]?.default ?? photo;
+}
+
 export async function getStaticPaths() {
   const modules = (import.meta.glob('../../content/research_projects/*.md', { eager: true }) as any);
   return Object.keys(modules).map((path) => {
@@ -17,7 +29,7 @@ const research_projects = Object.entries(modules).map(([path, mod]: [string, any
   const parts = path.split('/');
   const filename = parts[parts.length - 1];
   const slug = filename.replace(/\.md$/, '');
-  return { slug, ...(mod.frontmatter || {}), Content: (mod as any).default };
+  return { slug, ...(mod.frontmatter || {}), photo: resolvePhoto(mod.frontmatter?.photo), Content: (mod as any).default };
 });
 
 const { slug } = Astro.params;
