@@ -11,7 +11,7 @@ const photoImports = ((import.meta as any).glob(
 function resolvePhoto(photo) {
   if (!photo) return photo;
   // Convert frontmatter string paths to the glob key so Astro can serve optimized assets.
-  const key = photo.replace(/^\/?src\//, '../../');
+  const key = photo.replace(/^\/?\bsrc\//, '../../');
   return photoImports[key]?.default ?? photo;
 }
 
