@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 
 const photoImports = ((import.meta as any).glob(
-  '../../assets/images/people/*.{jpg,jpeg,png,webp,avif}',
+  '../../assets/images/people/**/*.{jpg,jpeg,png,webp,avif}',
   { eager: true },
 ) as Record<string, any>);
 
